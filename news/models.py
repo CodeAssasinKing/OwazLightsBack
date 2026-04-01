@@ -1,7 +1,5 @@
 from django.db import models
 
-from products.models import Products
-
 
 # Create your models here.
 class Category(models.Model):
@@ -30,13 +28,16 @@ class Gallery(models.Model):
 
 class News(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    gallery = models.ManyToManyField(Gallery, null=True, blank=True)
+    gallery = models.ManyToManyField(Gallery, blank=True)
     title = models.CharField(max_length=100)
     short_description = models.TextField()
     content = models.TextField()
     date = models.DateField(auto_now_add=True)
-    products = models.ManyToManyField(Products, null=True, blank=True)
+    products = models.ManyToManyField("products.Products", blank=True, related_name="news_list")
 
+    class Meta:
+        verbose_name_plural = "Новости"
+        verbose_name = "Новость"
     def __str__(self):
         return self.title
 

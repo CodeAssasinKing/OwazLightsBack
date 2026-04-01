@@ -1,6 +1,5 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from news.models import Category, Gallery, News
-from products.serializers import ProductsSerializer
 
 
 class CategorySerializer(ModelSerializer):
@@ -20,7 +19,13 @@ class GallerySerializer(ModelSerializer):
 class NewsSerializer(ModelSerializer):
     category = SerializerMethodField('category.name')
     gallery = GallerySerializer(many=True)
-    products = ProductsSerializer(many=True)
+
+    def get_fields(self):
+        fields = super().get_fields()
+        from products.serializers import ProductsSerializer
+        fields['products'] = ProductsSerializer(many=True, read_only=True)
+        return fields
+
     class Meta:
         model = News
         fields = [
