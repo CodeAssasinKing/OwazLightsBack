@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from core.views import StandardPagination
+from rest_framework.generics import ListAPIView
+from videos.serializers import VideosSerializer
+from videos.models import Videos
 
-# Create your views here.
+
+class VideoListView(ListAPIView):
+    queryset = Videos.objects.all()
+    serializer_class = VideosSerializer
+    pagination_class = StandardPagination

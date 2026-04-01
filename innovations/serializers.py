@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from innovations.models import Innovations
-from products.serializer import ProductsSerializer
+from products.serializers import ProductsSerializer
 
 class InnovationsSerializer(ModelSerializer):
     products = ProductsSerializer(many=True)

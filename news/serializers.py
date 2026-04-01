@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from news.models import Category, Gallery, News
-from products.serializer import ProductsSerializer
+from products.serializers import ProductsSerializer
 
 
 class CategorySerializer(ModelSerializer):

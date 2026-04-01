@@ -1,9 +1,9 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from innovations.serializer import InnovationsSerializer
-from news.serializer import NewsSerializer
+from innovations.serializers import InnovationsSerializer
+from news.serializers import NewsSerializer
 from products.models import ProductSize, ProductCategory, ProductGallery, ProductDocumentations, Products
-from videos.serializer import VideosSerializer
+from videos.serializers import VideosSerializer
 
 
 class ProductSizeSerializer(ModelSerializer):
