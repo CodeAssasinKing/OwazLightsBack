@@ -2,7 +2,15 @@ from rest_framework import serializers
 from core.models import Banners
 
 
-class BannerSerializer(serializers.Serializer):
+class BannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Banners
-        fields = "__all__"
+        fields = [
+            "id",
+            "title",
+            "banner_image",
+            "short_description",
+            "description",
+            "url",
+            "date"
+        ]

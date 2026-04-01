@@ -1,5 +1,8 @@
 from django.db import models
 
+from products.models import Products
+
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -32,7 +35,7 @@ class News(models.Model):
     short_description = models.TextField()
     content = models.TextField()
     date = models.DateField(auto_now_add=True)
-
+    products = models.ManyToManyField(Products, null=True, blank=True)
 
     def __str__(self):
         return self.title

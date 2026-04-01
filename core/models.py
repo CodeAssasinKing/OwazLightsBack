@@ -9,6 +9,7 @@ class Banners(models.Model):
     url = models.URLField()
     date = models.DateField(auto_now_add=True)
     priority = models.IntegerField(default=0)
+    active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Баннеры"
