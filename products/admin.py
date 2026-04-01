@@ -1,3 +1,82 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
+from .models import ProductSize, ProductCategory, ProductGallery, ProductDocumentations, Products
 
-# Register your models here.
+
+# Настройка вспомогательных моделей
+@admin.register(ProductSize)
+class ProductSizeAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
+@admin.register(ProductCategory)
+class ProductCategoryAdmin(admin.ModelAdmin):
+    list_display = ('get_preview', 'name')
+    search_fields = ('name',)
+
+    def get_preview(self, obj):
+        if obj.poster:
+            return mark_safe(f'<img src="{obj.poster.url}" width="50">')
+        return "Нет фото"
+
+    get_preview.short_description = "Постер"
+
+
+@admin.register(ProductGallery)
+class ProductGalleryAdmin(admin.ModelAdmin):
+    list_display = ('get_preview', 'name')
+
+    def get_preview(self, obj):
+        if obj.poster:
+            return mark_safe(f'<img src="{obj.poster.url}" width="50">')
+        return "Нет фото"
+
+    get_preview.short_description = "Фото"
+
+
+@admin.register(ProductDocumentations)
+class ProductDocumentationsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'file')
+
+
+# Основная настройка ТОВАРОВ
+@admin.register(Products)
+class ProductsAdmin(admin.ModelAdmin):
+    # Что видим в списке
+    list_display = ('get_poster_preview', 'name', 'category', 'size', 'date')
+    list_filter = ('category', 'size', 'date')
+    search_fields = ('name', 'description', 'short_description')
+
+    # Удобный интерфейс для связей ManyToMany
+    filter_horizontal = ('gallery', 'innovations', 'video', 'news')
+
+    # Автозаполнение (если категорий или размеров станет очень много)
+    autocomplete_fields = ('category', 'size')
+
+    # Группировка полей (Fieldsets)
+    fieldsets = (
+        ('Основная информация', {
+            'fields': ('name', 'category', 'size', 'date')
+        }),
+        ('Контент', {
+            'fields': ('short_description', 'description'),
+        }),
+        ('Медиа и Визуал', {
+            'fields': (('poster', 'get_poster_preview'), 'gallery', 'video'),
+        }),
+        ('Связанный контент', {
+            'classes': ('collapse',),  # Этот блок можно будет сворачивать
+            'fields': ('innovations', 'news'),
+            'description': 'Новости и инновации, связанные с этим продуктом'
+        }),
+    )
+
+    readonly_fields = ('get_poster_preview', 'date')
+
+    def get_poster_preview(self, obj):
+        if obj.poster:
+            return mark_safe(f'<img src="{obj.poster.url}" width="60" style="border-radius: 4px;">')
+        return "Нет постера"
+
+    get_poster_preview.short_description = "Превью"
