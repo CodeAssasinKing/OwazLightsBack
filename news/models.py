@@ -29,6 +29,7 @@ class Gallery(models.Model):
 class News(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     gallery = models.ManyToManyField(Gallery, blank=True)
+    poster = models.ImageField(upload_to='news/posters/', blank=True, null=True)
     title = models.CharField(max_length=100)
     short_description = models.TextField()
     content = models.TextField()

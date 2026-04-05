@@ -8,7 +8,7 @@ from core.serializers import BannerSerializer
 
 
 class StandardPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 3
     page_size_query_param = 'page_size'
     max_page_size = 100
 
@@ -17,8 +17,8 @@ class StandardPagination(PageNumberPagination):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_banners(request):
-    banners = Banners.objects.all().order_by('-priority')
-    serialized_banners = BannerSerializer(banners, many=True)
+    banners = Banners.objects.all().order_by('priority')
+    serialized_banners = BannerSerializer(banners, many=True, context={'request': request})
     return Response(serialized_banners.data, status=status.HTTP_200_OK)
 
 

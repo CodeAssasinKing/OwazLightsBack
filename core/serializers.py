@@ -10,7 +10,6 @@ class BannerSerializer(serializers.ModelSerializer):
             "title",
             "banner_image",
             "short_description",
-            "description",
             "url",
             "date"
         ]

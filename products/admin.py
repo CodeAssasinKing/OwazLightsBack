@@ -1,17 +1,17 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import ProductSize, ProductCategory, ProductGallery, ProductDocumentations, Products
-
+from modeltranslation.admin import TranslationAdmin
 
 # Настройка вспомогательных моделей
 @admin.register(ProductSize)
-class ProductSizeAdmin(admin.ModelAdmin):
+class ProductSizeAdmin(TranslationAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 
 
 @admin.register(ProductCategory)
-class ProductCategoryAdmin(admin.ModelAdmin):
+class ProductCategoryAdmin(TranslationAdmin):
     list_display = ('get_preview', 'name')
     search_fields = ('name',)
 
@@ -24,7 +24,7 @@ class ProductCategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProductGallery)
-class ProductGalleryAdmin(admin.ModelAdmin):
+class ProductGalleryAdmin(TranslationAdmin):
     list_display = ('get_preview', 'name')
 
     def get_preview(self, obj):
@@ -36,13 +36,13 @@ class ProductGalleryAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProductDocumentations)
-class ProductDocumentationsAdmin(admin.ModelAdmin):
+class ProductDocumentationsAdmin(TranslationAdmin):
     list_display = ('name', 'file')
 
 
 # Основная настройка ТОВАРОВ
 @admin.register(Products)
-class ProductsAdmin(admin.ModelAdmin):
+class ProductsAdmin(TranslationAdmin):
     # Что видим в списке
     list_display = ('get_poster_preview', 'name', 'category', 'size', 'date')
     list_filter = ('category', 'size', 'date')

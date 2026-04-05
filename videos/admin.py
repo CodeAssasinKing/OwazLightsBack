@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Videos
+from modeltranslation.admin import TranslationAdmin
 
 
 @admin.register(Videos)
-class VideosAdmin(admin.ModelAdmin):
+class VideosAdmin(TranslationAdmin):
     # Поля в списке: превью плеера, название и дата
     list_display = ('get_video_player', 'title', 'date')
-
+    list_display_links = ('title',)
     # Поиск по названию
     search_fields = ('title',)
 
@@ -23,7 +24,7 @@ class VideosAdmin(admin.ModelAdmin):
             'fields': ('title', 'date')
         }),
         ('Файл и предпросмотр', {
-            'fields': ('file', 'get_video_player'),
+            'fields': ('file', 'get_video_player', 'poster'),
         }),
     )
 

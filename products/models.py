@@ -63,6 +63,7 @@ class Products(models.Model):
     size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
     gallery = models.ManyToManyField(ProductGallery,  blank=True)
     innovations = models.ManyToManyField(Innovations, blank=True, related_name="products_list")
+    product_documentations = models.ManyToManyField(ProductDocumentations, blank=True, related_name="products_list")
     video = models.ManyToManyField(Videos, blank=True)
     news = models.ManyToManyField(News, blank=True, related_name="products_list")
     date = models.DateField(auto_now_add=True)

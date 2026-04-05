@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Banners
-
+from modeltranslation.admin import TranslationAdmin
 
 @admin.register(Banners)
-class BannersAdmin(admin.ModelAdmin):
+class BannersAdmin(TranslationAdmin):
     # Поля, которые будут отображаться в списке
     list_display = ('get_html_photo', 'title', 'priority', 'date', 'url')
 
@@ -12,7 +12,7 @@ class BannersAdmin(admin.ModelAdmin):
     list_display_links = ('get_html_photo', 'title')
 
     # Поля, по которым доступен поиск
-    search_fields = ('title', 'short_description', 'description')
+    search_fields = ('title', 'short_description',)
 
     # Фильтры в правой колонке
     list_filter = ('date', 'priority')
@@ -29,7 +29,7 @@ class BannersAdmin(admin.ModelAdmin):
             'fields': ('title', 'banner_image', 'get_html_photo')
         }),
         ('Контент и ссылки', {
-            'fields': ('short_description', 'description', 'url')
+            'fields': ('short_description', 'url')
         }),
         ('Настройки отображения', {
             'fields': ('priority',),

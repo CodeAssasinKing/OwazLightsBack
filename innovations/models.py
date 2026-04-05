@@ -6,7 +6,7 @@ class Innovations(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='innovations/')
     products = models.ManyToManyField("products.Products",  blank=True, related_name="innovations_list")
-    product_description_image = models.ImageField(upload_to='innovations/product_description_image/')
+    product_description_image = models.ImageField(upload_to='innovations/product_description_image/', null=True, blank=True)
     date = models.DateField(auto_now_add=True)
 
     class Meta:

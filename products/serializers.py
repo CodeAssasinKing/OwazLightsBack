@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, CharField
 
 from innovations.serializers import InnovationsSerializer
 from news.serializers import NewsSerializer
@@ -31,8 +31,8 @@ class ProductDocumentationsSerializer(ModelSerializer):
 
 
 class ProductsSerializer(ModelSerializer):
-    category = SerializerMethodField('category.name')
-    size = SerializerMethodField('size.name')
+    category = CharField(source='category.name', read_only=True)
+    size = CharField(source='size.name', read_only=True)
     gallery = ProductGallerySerializer(many=True)
     innovations = InnovationsSerializer(many=True)
     video = VideosSerializer(many=True)
@@ -47,7 +47,7 @@ class ProductsSerializer(ModelSerializer):
             "description",
             "category",
             "size",
-            "gallery"
+            "gallery",
             "innovations",
             "video",
             "news",

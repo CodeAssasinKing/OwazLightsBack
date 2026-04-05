@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Innovations
-
+from modeltranslation.admin import TranslationAdmin
 
 @admin.register(Innovations)
-class InnovationsAdmin(admin.ModelAdmin):
+class InnovationsAdmin(TranslationAdmin):
     # Что отображаем в списке
     list_display = ('get_preview', 'name', 'date', 'get_products_count')
 

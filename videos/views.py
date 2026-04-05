@@ -5,6 +5,6 @@ from videos.models import Videos
 
 
 class VideoListView(ListAPIView):
-    queryset = Videos.objects.all()
+    queryset = Videos.objects.all().order_by("-date")
     serializer_class = VideosSerializer
     pagination_class = StandardPagination
