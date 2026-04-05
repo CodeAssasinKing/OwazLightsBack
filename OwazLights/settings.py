@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "user_creditentals",
     "innovations",
     "products",
+    "team",
     "django_celery_beat"
 ]
 

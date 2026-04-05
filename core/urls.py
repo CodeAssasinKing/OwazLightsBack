@@ -4,6 +4,7 @@ from core.views import get_banners
 from innovations.views import InnovationsListView, get_exact_innovation
 from news.views import NewsListView, get_news_category, get_three_news, get_exact_news
 from products.views import ProductsListView, get_product_categories
+from team.views import get_team
 from user_creditentals.views import post_user_credential
 from videos.views import VideoListView
 
@@ -30,4 +31,6 @@ urlpatterns = [
     path("get-product-categories", get_product_categories),
 #     videos
     path("videos", VideoListView.as_view()),
+#     team
+    path("get-teams", get_team)
 ]
