@@ -77,8 +77,13 @@ class ProductsSerializer(ModelSerializer):
     gallery = ProductGallerySerializer(many=True)
     innovations = InnovationsSerializer(many=True)
     video = VideosSerializer(many=True)
-    news = NewsSerializer(many=True, read_only=True)
+    news = SerializerMethodField()
     product_documentations = ProductDocumentationsSerializer(many=True)
+    def get_news(self, obj):
+        query_set = obj.news.all().order_by('-date')[:6]
+        request = self.context.get('request')
+        serialized_date = NewsSerializer(query_set, many=True, context={"request": request}).data
+        return serialized_date
     class Meta:
         model = Products
         fields = [

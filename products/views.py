@@ -1,24 +1,16 @@
 import os
-from encodings.utf_7 import encode
-
 from django.http import FileResponse
-from django.utils import encoding
-from django.utils.encoding import smart_str
-
 from core.views import StandardPagination
 from rest_framework.generics import ListAPIView
-from rest_framework.views import  APIView
-from rest_framework.response import Response
+
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from products.models import Products, ProductCategory, ProductSubcategory, ProductSize, ProductDocumentations
+from products.models import Products, ProductCategory, ProductSubcategory, ProductSize
 from products.serializers import (
     ProductsSerializer,
     ProductSubcategorySerializer,
-    ProductCategorySerializer, ProductSizeSerializer, ProductDocumentationsSerializer,
+    ProductCategorySerializer, ProductSizeSerializer,
 )
-from rest_framework import status
-
 
 class ProductsListView(ListAPIView):
     def get_queryset(self):
