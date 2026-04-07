@@ -26,6 +26,19 @@ class ProductCategory(models.Model):
         return self.name
 
 
+class ProductSubcategory(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    poster = models.ImageField(upload_to='product/subcategories/')
+
+    class Meta:
+        verbose_name_plural = "Субкатегории продуктов"
+        verbose_name = "Субкатегория продукта"
+
+    def __str__(self):
+        return self.name
+
+
 class ProductGallery(models.Model):
     name = models.CharField(max_length=100)
     poster = models.ImageField(upload_to='product/galleries/')
@@ -42,7 +55,17 @@ class ProductGallery(models.Model):
 class ProductDocumentations(models.Model):
     name = models.CharField(max_length=100)
     file = models.FileField(upload_to='product/documentations/')
+    description = models.TextField(blank=True, null=True, verbose_name="Description")
+    file_size = models.IntegerField(blank=True, null=True, verbose_name="File Size (bytes)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active")
 
+    def save(self, *args, **kwargs):
+        # Save file size
+        if self.file:
+            self.file_size = self.file.size
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Документации к продуктам"
@@ -60,6 +83,7 @@ class Products(models.Model):
     short_description = models.TextField()
     description = models.TextField()
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    subcategory = models.ForeignKey(ProductSubcategory, on_delete=models.CASCADE, null=True)
     size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
     gallery = models.ManyToManyField(ProductGallery,  blank=True)
     innovations = models.ManyToManyField(Innovations, blank=True, related_name="products_list")

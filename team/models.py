@@ -15,3 +15,18 @@ class Teams(models.Model):
 
     def __str__(self):
         return self.full_name
+
+
+
+
+class OurValues(models.Model):
+    icon = models.ImageField(upload_to='our_values/')
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+
+    class Meta:
+        verbose_name = 'Наша ценность'
+        verbose_name_plural = 'Наши ценности'
+
+    def __str__(self):
+        return self.title

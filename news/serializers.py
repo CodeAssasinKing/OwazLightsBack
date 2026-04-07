@@ -1,3 +1,4 @@
+from django.db.models import Model
 from rest_framework.fields import CharField
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from news.models import Category, Gallery, News
@@ -22,12 +23,6 @@ class NewsSerializer(ModelSerializer):
     category_id = CharField(source='category.id', read_only=True)
     gallery = GallerySerializer(many=True)
 
-    def get_fields(self):
-        fields = super().get_fields()
-        from products.serializers import ProductsSerializer
-        fields['products'] = ProductsSerializer(many=True, read_only=True)
-        return fields
-
     class Meta:
         model = News
         fields = [
@@ -39,7 +34,6 @@ class NewsSerializer(ModelSerializer):
             "short_description",
             "content",
             "date",
-            "products",
             'poster'
         ]
 
@@ -51,16 +45,26 @@ class NewsSerializerWithRelatedNews(ModelSerializer):
     category_id = CharField(source='category.id', read_only=True)
     gallery = GallerySerializer(many=True)
     related_news = SerializerMethodField()
+    products = SerializerMethodField()
 
-    def get_fields(self):
-        fields = super().get_fields()
-        from products.serializers import ProductsSerializer
-        fields['products'] = ProductsSerializer(many=True, read_only=True)
-        return fields
+    def get_products(self, obj):
+        items = obj.products.all().order_by("-date")[:10]
+        request = self.context.get("request")
+        serialized_data = [
+            {
+                "id": item.id,
+                "poster": request.build_absolute_uri(item.poster.url),
+                "name": item.name,
+                "category": item.category.name,
+            }
+        for item in items]
+        return serialized_data
+
 
     def get_related_news(self, obj):
         items = News.objects.filter(category=obj.category).exclude(id=obj.id).order_by("-date")[:4]
         return NewsSerializer(items, many=True, context=self.context).data
+
 
     class Meta:
         model = News
@@ -73,9 +77,9 @@ class NewsSerializerWithRelatedNews(ModelSerializer):
             "short_description",
             "content",
             "date",
-            "products",
             'poster',
-            "related_news"
+            "related_news",
+            "products"
         ]
 
 

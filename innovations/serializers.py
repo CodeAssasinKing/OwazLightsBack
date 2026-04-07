@@ -1,12 +1,21 @@
+from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 from innovations.models import Innovations
 
 class InnovationsSerializer(ModelSerializer):
-    def get_fields(self):
-        fields = super().get_fields()
-        from products.serializers import ProductsSerializer # Импорт внутри!
-        fields['products'] = ProductsSerializer(many=True, read_only=True)
-        return fields
+    products = SerializerMethodField()
+
+    def get_products(self, obj):
+        items = obj.products.all().order_by("-date")[:10]
+        request = self.context.get("request")
+        serialized_data = [
+            {
+                "id": item.id,
+                "poster": request.build_absolute_uri(item.poster.url),
+                "name": item.name,
+            }
+        for item in items]
+        return serialized_data
 
     class Meta:
         model = Innovations
@@ -15,9 +24,9 @@ class InnovationsSerializer(ModelSerializer):
             "name",
             "description",
             "image",
-            "products",
             "product_description_image",
-            "date"
+            "date",
+            "products"
         ]
 
 

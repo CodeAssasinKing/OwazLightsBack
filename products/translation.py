@@ -1,5 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
-from products.models import ProductSize, ProductCategory, ProductGallery, ProductDocumentations, Products
+from products.models import ProductSize, ProductCategory, ProductGallery, ProductDocumentations, Products, \
+    ProductSubcategory
 
 
 @register(ProductSize)
@@ -12,6 +13,11 @@ class ProductCategoryTranslate(TranslationOptions):
     fields = ('name',)
 
 
+@register(ProductSubcategory)
+class ProductSubcategoryTranslate(TranslationOptions):
+    fields = ('name',)
+
+
 @register(ProductGallery)
 class ProductGalleryTranslate(TranslationOptions):
     fields = ('name',)
@@ -19,7 +25,7 @@ class ProductGalleryTranslate(TranslationOptions):
 
 @register(ProductDocumentations)
 class ProductDocumentationsTranslate(TranslationOptions):
-    fields = ('name',)
+    fields = ('name', "description", )
 
 
 @register(Products)

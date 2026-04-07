@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from modeltranslation.admin import TranslationAdmin
-from team.models import Teams
+from team.models import Teams, OurValues
+
+
 # Register your models here.
 @admin.register(Teams)
 class TeamsAdmin(TranslationAdmin):
@@ -23,3 +25,8 @@ class TeamsAdmin(TranslationAdmin):
             return mark_safe(f'<img src="{obj.image.url}" width="60" style="border-radius: 4px;">')
         return "Нет постера"
 
+
+@admin.register(OurValues)
+class OurValuesAdmin(TranslationAdmin):
+    list_display = ("title", 'description')
+    list_display_links = ("title", )
