@@ -1,0 +1,3 @@
+celery -A owazlights beat --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=info
+celery -A owazlights worker --loglevel=INFO --pool=prefork
+redis-server --port 6380
