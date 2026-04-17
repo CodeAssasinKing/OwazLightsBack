@@ -14,9 +14,13 @@ class ProductSize(models.Model):
     def __str__(self):
         return self.name
 
+
 class ProductCategory(models.Model):
     name = models.CharField(max_length=100)
-    poster = models.ImageField(upload_to='product/categories/')
+    poster = models.ImageField(upload_to="product/categories/")
+    priority = models.IntegerField(
+        default=0, help_text="Чем ниже тем он первым появится"
+    )
 
     class Meta:
         verbose_name_plural = "Категории продуктов"
@@ -29,7 +33,10 @@ class ProductCategory(models.Model):
 class ProductSubcategory(models.Model):
     name = models.CharField(max_length=100)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    poster = models.ImageField(upload_to='product/subcategories/')
+    poster = models.ImageField(upload_to="product/subcategories/")
+    priority = models.IntegerField(
+        default=0, help_text="Чем ниже тем он первым появится"
+    )
 
     class Meta:
         verbose_name_plural = "Субкатегории продуктов"
@@ -41,8 +48,7 @@ class ProductSubcategory(models.Model):
 
 class ProductGallery(models.Model):
     name = models.CharField(max_length=100)
-    poster = models.ImageField(upload_to='product/galleries/')
-
+    poster = models.ImageField(upload_to="product/galleries/")
 
     class Meta:
         verbose_name_plural = "Галерея продуктов"
@@ -54,9 +60,11 @@ class ProductGallery(models.Model):
 
 class ProductDocumentations(models.Model):
     name = models.CharField(max_length=100)
-    file = models.FileField(upload_to='product/documentations/')
+    file = models.FileField(upload_to="product/documentations/")
     description = models.TextField(blank=True, null=True, verbose_name="Description")
-    file_size = models.IntegerField(blank=True, null=True, verbose_name="File Size (bytes)")
+    file_size = models.IntegerField(
+        blank=True, null=True, verbose_name="File Size (bytes)"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True, verbose_name="Active")
@@ -75,23 +83,27 @@ class ProductDocumentations(models.Model):
         return self.name
 
 
-
 # Create your models here.
 class Products(models.Model):
     name = models.CharField(max_length=100)
-    poster = models.ImageField(upload_to='products/posters/')
+    poster = models.ImageField(upload_to="products/posters/")
     short_description = models.TextField()
     description = models.TextField()
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    subcategory = models.ForeignKey(ProductSubcategory, on_delete=models.CASCADE, null=True)
+    subcategory = models.ForeignKey(
+        ProductSubcategory, on_delete=models.CASCADE, null=True
+    )
     size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
-    gallery = models.ManyToManyField(ProductGallery,  blank=True)
-    innovations = models.ManyToManyField(Innovations, blank=True, related_name="products_list")
-    product_documentations = models.ManyToManyField(ProductDocumentations, blank=True, related_name="products_list")
+    gallery = models.ManyToManyField(ProductGallery, blank=True)
+    innovations = models.ManyToManyField(
+        Innovations, blank=True, related_name="products_list"
+    )
+    product_documentations = models.ManyToManyField(
+        ProductDocumentations, blank=True, related_name="products_list"
+    )
     video = models.ManyToManyField(Videos, blank=True)
     news = models.ManyToManyField(News, blank=True, related_name="products_list")
     date = models.DateField(auto_now_add=True)
-
 
     class Meta:
         verbose_name_plural = "Продукты"
@@ -99,5 +111,3 @@ class Products(models.Model):
 
     def __str__(self):
         return self.name
-
-
