@@ -223,3 +223,13 @@ def download_file(request, id):
             {"error": "Error downloading file"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def get_popular_products(request):
+    products = Products.objects.filter(is_popular=True).order_by("-date")[:30]
+    serailized_data = ProductsSerializer(
+        products, many=True, context={"request": request}
+    )
+    return Response(serailized_data.data, status=status.HTTP_200_OK)

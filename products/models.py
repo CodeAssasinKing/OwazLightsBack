@@ -103,6 +103,7 @@ class Products(models.Model):
     )
     video = models.ManyToManyField(Videos, blank=True)
     news = models.ManyToManyField(News, blank=True, related_name="products_list")
+    is_popular = models.BooleanField(default=False)
     date = models.DateField(auto_now_add=True)
 
     class Meta:

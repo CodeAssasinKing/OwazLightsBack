@@ -70,12 +70,19 @@ class ProductsAdmin(TranslationAdmin):
         "subcategory",
         "size",
         "date",
+        "is_popular",
     )
     list_filter = ("category", "size", "date")
     search_fields = ("name", "description", "short_description")
 
     # Удобный интерфейс для связей ManyToMany
-    filter_horizontal = ("gallery", "innovations", "video", "news", "product_documentations")
+    filter_horizontal = (
+        "gallery",
+        "innovations",
+        "video",
+        "news",
+        "product_documentations",
+    )
 
     # Автозаполнение (если категорий или размеров станет очень много)
     autocomplete_fields = ("category", "subcategory", "size")
@@ -84,12 +91,25 @@ class ProductsAdmin(TranslationAdmin):
     fieldsets = (
         (
             "Основная информация",
-            {"fields": ("name", "category", "subcategory", "size", "date")},
+            {
+                "fields": (
+                    "name",
+                    "category",
+                    "subcategory",
+                    "size",
+                    "date",
+                    "is_popular",
+                )
+            },
         ),
         (
             "Контент",
             {
-                "fields": ("short_description", "description", "product_documentations"),
+                "fields": (
+                    "short_description",
+                    "description",
+                    "product_documentations",
+                ),
             },
         ),
         (

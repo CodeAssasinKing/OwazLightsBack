@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "innovations",
     "products",
     "team",
+    "site_applications",
     "django_celery_beat",
 ]
 
