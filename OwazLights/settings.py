@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "team",
     "site_applications",
     "django_celery_beat",
+    "ckeditor"
 ]
 
 MIDDLEWARE = [

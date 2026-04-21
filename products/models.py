@@ -2,6 +2,7 @@ from django.db import models
 from innovations.models import Innovations
 from news.models import News
 from videos.models import Videos
+from ckeditor.fields import RichTextField
 
 
 class ProductSize(models.Model):
@@ -61,7 +62,7 @@ class ProductGallery(models.Model):
 class ProductDocumentations(models.Model):
     name = models.CharField(max_length=100)
     file = models.FileField(upload_to="product/documentations/")
-    description = models.TextField(blank=True, null=True, verbose_name="Description")
+    description = RichTextField(null=True, blank=True)
     file_size = models.IntegerField(
         blank=True, null=True, verbose_name="File Size (bytes)"
     )
@@ -87,8 +88,8 @@ class ProductDocumentations(models.Model):
 class Products(models.Model):
     name = models.CharField(max_length=100)
     poster = models.ImageField(upload_to="products/posters/")
-    short_description = models.TextField()
-    description = models.TextField()
+    short_description = RichTextField(null=True, blank=True)
+    description = RichTextField(null=True, blank=True)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(
         ProductSubcategory, on_delete=models.CASCADE, null=True
