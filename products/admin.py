@@ -82,6 +82,7 @@ class ProductsAdmin(TranslationAdmin):
         "video",
         "news",
         "product_documentations",
+        "applications",
     )
 
     # Автозаполнение (если категорий или размеров станет очень много)
@@ -122,7 +123,7 @@ class ProductsAdmin(TranslationAdmin):
             "Связанный контент",
             {
                 "classes": ("collapse",),  # Этот блок можно будет сворачивать
-                "fields": ("innovations", "news"),
+                "fields": ("innovations", "news", "applications"),
                 "description": "Новости и инновации, связанные с этим продуктом",
             },
         ),

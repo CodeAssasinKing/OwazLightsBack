@@ -1,10 +1,12 @@
 from rest_framework.serializers import ModelSerializer
 from site_applications.models import Application
 from news.serializers import NewsSerializer
+from products.serializers import ProductsSerializer
 
 
 class ApplicationSerializer(ModelSerializer):
     related_news = NewsSerializer(many=True, read_only=True)
+    related_products = ProductsSerializer(many=True, read_only=True)
 
     class Meta:
         model = Application
@@ -16,4 +18,5 @@ class ApplicationSerializer(ModelSerializer):
             "date",
             "priority",
             "related_news",
+            "related_products",
         ]

@@ -3,6 +3,7 @@ from innovations.models import Innovations
 from news.models import News
 from videos.models import Videos
 from ckeditor.fields import RichTextField
+from site_applications.models import Application
 
 
 class ProductSize(models.Model):
@@ -104,6 +105,9 @@ class Products(models.Model):
     )
     video = models.ManyToManyField(Videos, blank=True)
     news = models.ManyToManyField(News, blank=True, related_name="products_list")
+    applications = models.ManyToManyField(
+        Application, blank=True, related_name="related_products"
+    )
     is_popular = models.BooleanField(default=False)
     date = models.DateField(auto_now_add=True)
 
